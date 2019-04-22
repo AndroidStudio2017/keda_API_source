@@ -10,10 +10,6 @@ from src.Audio_in.recordEngine import *
 engine = recordEngine()
 
 
-def _SetTmpWave(tmpWave):
-    return engine.SetTmpWave(tmpWave)
-
-
 def _SetOutWave(outWave):
     return engine.SetOutWave(outWave)
 
@@ -36,8 +32,8 @@ def _SetFileType(fileType):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-t', '--tmpWave', action='store', dest='tmpWave',
-                        help='Set the raw audio path to store')
+    # parser.add_argument('-t', '--tmpWave', action='store', dest='tmpWave',
+    #                    help='Set the raw audio path to store')
     parser.add_argument('-o', '--outWave', action='store', dest='outWave',
                         help='Set the final audio(16kHz) path to store')
     parser.add_argument('-d', '--duration', action='store', dest='duration',
@@ -50,10 +46,10 @@ if __name__ == '__main__':
                         help='Set the file type of the audio')
 
     args = parser.parse_args()
-    if args.tmpWave:
-        if not _SetTmpWave(args.tmpWave):
-            print('Argument Error: -t')
-            sys.exit(1)
+    # if args.tmpWave:
+    #    if not _SetTmpWave(args.tmpWave):
+    #        print('Argument Error: -t')
+    #        sys.exit(1)
 
     if args.outWave:
         if not _SetOutWave(args.outWave):

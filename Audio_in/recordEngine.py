@@ -12,7 +12,8 @@ class recordEngine:
         self._is_error = False
         self._is_running = False
 
-        self.tmpWave = './audio/test.wav'
+        self.tmpStereoWave = './audio/tmpStereo.wav'
+        self.tmpMonoWave = './audio/tmpMono.wav'
         self.outWave = './audio/test_out.wav'
 
         self.duration = '10'
@@ -20,17 +21,6 @@ class recordEngine:
         self.sampleRate = '16000'
         self.channels = '1'
         self.fileType = 'wav'
-
-    def SetTmpWave(self, tmpWave):
-        if self._is_error or self._is_running:
-            return False
-        _state = True
-        if isinstance(tmpWave, str):
-            self.tmpWave = tmpWave
-        else:
-            self._is_error = True
-            _state = False
-        return _state
 
     def SetOutWave(self, outWave):
         if self._is_error or self._is_running:
@@ -107,17 +97,18 @@ class recordEngine:
             '-c': self.channels,
             '-t': self.fileType
         }
+        # generate raw audio
         rp = RecordParam()
-        rp.SetAudioPath(self.tmpWave)
+        rp.SetAudioPath(self.tmpStereoWave)
         rp.params = paramDict
         record(rp)
 
-        # downsample
-        ds = DownSample()
-        if not ds.open_file(self.tmpWave):
-            print('Open %s Error.' % self.tmpWave)
-            self._is_error = True
-            return False
+        # generate Mono tmp
+        print('Generate Mono audio ...')
+        os.system('sox ' + self.tmpStereoWave + ' ' + self.tmpMonoWave + ' channels 1')
+        print('Generate successfully: %s' % self.tmpMonoWave)
 
-        ds.resample(self.outWave)
-        return True
+        # convert to 16kHz
+        print("Convert to %skHz ..." % str(self.sampleRate))
+        os.system('sox ' + self.tmpMonoWave + ' -r ' + self.sampleRate + ' ' + self.outWave)
+        print('Audio in success!')
