@@ -8,6 +8,10 @@ from src.SPK.SPKEngine import *
 engine = SPKEngine()
 
 
+def _GetDataLen():
+    return engine.GetDataLen()
+
+
 def _SetOffSet(offset):
     return engine.SetOffset(offset)
 
@@ -47,8 +51,14 @@ if __name__ == '__main__':
                         help='specify the length of recognition(once)')
     parser.add_argument('-s', '--step', action='store', dest='piceLen',
                         help='specify pace length for recognition(all)')
+    parser.add_argument('-t', '--total', action='store_true', dest='totalLen',
+                        help='Get the length of whole audio (must load the audio first)')
 
     args = parser.parse_args()
+    if args.totalLen:
+        print('\nTotal frames: ', _GetDataLen().value)
+        sys.exit(0)
+
     if args.workType:
         if not _SetWorkType(args.workType):
             print('Argument Error: -w')

@@ -17,6 +17,7 @@ class SPK:
         self.dataBuf = None
         self.dataLen = 0
         self.nDesiredNum = 5
+        self.loadFlag = True
 
     def SetAudioPath(self, audioPath):
         """
@@ -24,6 +25,7 @@ class SPK:
         :param audioPath: 音频路径 str
         :return: None
         """
+        self.loadFlag = True
         self.audioPath = audioPath
 
     def SetNDesiredNum(self, nDesiredNum):
@@ -39,6 +41,8 @@ class SPK:
         获取音频长度
         :return: 音频长度 int
         """
+        if self.dataLen == 0 or self.dataBuf is None:
+            self.LoadWaveFile()
         return self.dataLen
 
     def LoadWaveFile(self):
@@ -46,6 +50,8 @@ class SPK:
         加载音频文件 dll function
         :return: Success or fail
         """
+        if not self.loadFlag:
+            return True
         _LoadWaveFile = self.dll.LoadWaveFile
         _LoadWaveFile.argtypes = (ctypes.c_char_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_short)),
                                   ctypes.POINTER(ctypes.c_long))
@@ -60,6 +66,7 @@ class SPK:
         self.dataBuf = pDataBuf
 
         if dataLen != 0:
+            self.loadFlag = False
             return True
         else:
             return False

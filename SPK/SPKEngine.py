@@ -12,6 +12,8 @@ class SPKEngine:
         """
         初始化参数
         """
+        self.spk = SPK()
+
         self._is_error = False
         self._is_running = False
         self._is_once = False
@@ -25,6 +27,13 @@ class SPKEngine:
 
         # all
         self.piceLen = 16000
+
+    def GetDataLen(self):
+        """
+        获取音频长度
+        :return: 音频长度
+        """
+        return self.spk.GetDataLen()
 
     def SetOffset(self, offset):
         """
@@ -145,12 +154,11 @@ class SPKEngine:
             return False
         self._is_running = True
         _state = True
-        spk = SPK()
-        spk.SetAudioPath(self.audioPath)
-        spk.SetNDesiredNum(self.nDesiredNum)
-        spk.LoadWaveFile()
+        self.spk.SetAudioPath(self.audioPath)
+        self.spk.SetNDesiredNum(self.nDesiredNum)
+        self.spk.LoadWaveFile()
         if self._is_once:
-            _state = spk.Recognize(self.offset, self.dataLen)
+            _state = self.spk.Recognize(self.offset, self.dataLen)
         else:
-            _state = spk.RecognizeAll(self.piceLen)
+            _state = self.spk.RecognizeAll(self.piceLen)
         return _state
