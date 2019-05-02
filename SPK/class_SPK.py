@@ -20,34 +20,31 @@ class SPK:
 
     def SetAudioPath(self, audioPath):
         """
-
-        :param audioPath:
-        :return:
+        设置识别音频路径
+        :param audioPath: 音频路径 str
+        :return: None
         """
         self.audioPath = audioPath
 
     def SetNDesiredNum(self, nDesiredNum):
         """
-
-        :param nDesiredNum:
-        :return:
+        设置期望的到的说话人识别数量
+        :param nDesiredNum: 期望得到的说话人识别数量 int
+        :return: None
         """
         self.nDesiredNum = nDesiredNum
 
     def GetDataLen(self):
         """
-
-        :return:
+        获取音频长度
+        :return: 音频长度 int
         """
         return self.dataLen
 
     def LoadWaveFile(self):
         """
-
-        :param szWaveName:
-        :param pDataBuf:
-        :param dataLen:
-        :return:
+        加载音频文件 dll function
+        :return: Success or fail
         """
         _LoadWaveFile = self.dll.LoadWaveFile
         _LoadWaveFile.argtypes = (ctypes.c_char_p, ctypes.POINTER(ctypes.POINTER(ctypes.c_short)),
@@ -69,9 +66,9 @@ class SPK:
 
     def Recognize(self, offset, dataLen):
         """
-
-        :param offset:
-        :param dataLen:
+        单次识别，从offset开始到offset + dataLen结束
+        :param offset:      相对原音频的偏移
+        :param dataLen:     识别的帧长度
         :return:
         """
         if self.dataLen == 0 or self.dataBuf is None:
@@ -94,8 +91,8 @@ class SPK:
 
     def RecognizeAll(self, piceLen):
         """
-
-        :param piceLen:
+        识别全部音频，以步长分开每次识别
+        :param piceLen: 识别的步长 piceLen
         :return:
         """
         if self.dataLen == 0 or self.dataBuf is None:

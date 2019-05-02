@@ -1,5 +1,7 @@
+import sys
+sys.path.append('../../')
+
 from src.SPK.class_SPK import *
-from src.SPK.SPK_API import *
 
 
 class SPKEngine:
@@ -7,6 +9,9 @@ class SPKEngine:
     声纹识别引擎类SPKEngine
     """
     def __init__(self):
+        """
+        初始化参数
+        """
         self._is_error = False
         self._is_running = False
         self._is_once = False
@@ -22,6 +27,11 @@ class SPKEngine:
         self.piceLen = 16000
 
     def SetOffset(self, offset):
+        """
+        设置偏移量接口
+        :param offset:  偏移量
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -35,6 +45,11 @@ class SPKEngine:
         return _state
 
     def SetDataLen(self, dataLen):
+        """
+        设置单次识别数据长度
+        :param dataLen: 识别数据长度
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -48,6 +63,11 @@ class SPKEngine:
         return _state
 
     def SetPiceLen(self, piceLen):
+        """
+        设置识别步长
+        :param piceLen: 步长
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -61,6 +81,11 @@ class SPKEngine:
         return _state
 
     def SetAudioPath(self, audioPath):
+        """
+        设置识别音频路径
+        :param audioPath: 音频路径
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -72,6 +97,11 @@ class SPKEngine:
         return _state
 
     def SetNDesiredNum(self, nDesiredNum):
+        """
+        设置渴望得到的识别说话人数量
+        :param nDesiredNum: 说话人数量
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -85,6 +115,11 @@ class SPKEngine:
         return _state
 
     def SetWorkType(self, workType):
+        """
+        设置工作类型(all, once)
+        :param workType: 工作类型
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         _state = True
@@ -102,6 +137,10 @@ class SPKEngine:
         return _state
 
     def run(self):
+        """
+        根据设置参数运行
+        :return: Success or Fail
+        """
         if self._is_error or self._is_running:
             return False
         self._is_running = True
